@@ -19,4 +19,8 @@ class Member extends Model
         'tanggal_bergabung',
         'status',
     ];
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
 }

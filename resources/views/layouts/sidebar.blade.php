@@ -38,7 +38,7 @@
         <li class="nav-heading">Transaksi</li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
+            <a class="nav-link {{ request()->routeIs('bookings.*') ? '' : 'collapsed' }}" href="{{ route('bookings.index') }}">
                 <i class="bi bi-calendar-check"></i>
                 <span>Booking</span>
             </a>
