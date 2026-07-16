@@ -6,6 +6,9 @@
         <label class="form-label">Alamat</label>        <textarea name="alamat" class="form-control @error('alamat') is-invalid @enderror" rows="3">{{ old('alamat', $item->alamat ?? '') }}</textarea>        @error('alamat')<div class="invalid-feedback">{{ $message }}</div>@enderror
     </div>
     <div class="col-md-12">
+        <label class="form-label">Kota</label>        <input type="text" name="kota" class="form-control @error('kota') is-invalid @enderror" value="{{ old('kota', $item->kota ?? '') }}">        @error('kota')<div class="invalid-feedback">{{ $message }}</div>@enderror
+    </div>
+    <div class="col-md-12">
         <label class="form-label">Nomor Telepon</label>        <input type="text" name="nomor_telepon" class="form-control @error('nomor_telepon') is-invalid @enderror" value="{{ old('nomor_telepon', $item->nomor_telepon ?? '') }}">        @error('nomor_telepon')<div class="invalid-feedback">{{ $message }}</div>@enderror
     </div>
     <div class="col-md-12">

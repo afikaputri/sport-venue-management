@@ -1,6 +1,17 @@
 @extends('layouts.app')
 @section('title', 'Data Jenis Lapangan')
 @section('content')
+<div class="pagetitle">
+    <h1>Data Jenis Lapangan</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+            <li class="breadcrumb-item">Master Data</li>
+            <li class="breadcrumb-item active">Jenis Lapangan</li>
+        </ol>
+    </nav>
+</div>
+
 <div class="card shadow-sm border-0">
     <div class="card-header bg-white d-flex justify-content-between align-items-center">
         <h5 class="card-title mb-0 fw-bold text-navy">Daftar Jenis Lapangan</h5>
@@ -30,7 +41,7 @@
                         <td>{{ $item->nama_jenis }}</td>
                         <td>{{ $item->deskripsi }}</td>
                         <td><span class="badge bg-{{ $item->status == 'Aktif' ? 'success' : 'secondary' }}">{{ $item->status }}</span></td>
-                        <td class="text-center">
+                        <td class="text-center text-nowrap">
                             <a href="{{ route('court_types.show', $item->id) }}" class="btn btn-info btn-sm text-white" title="Detail"><i class="bi bi-eye"></i></a>
                             <a href="{{ route('court_types.edit', $item->id) }}" class="btn btn-warning btn-sm text-white" title="Edit"><i class="bi bi-pencil"></i></a>
                             <form action="{{ route('court_types.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin hapus data ini?')">

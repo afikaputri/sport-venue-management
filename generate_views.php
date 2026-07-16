@@ -5,18 +5,24 @@ $viewsDir = __DIR__ . '/resources/views';
 $entities = [
     'venues' => [
         'title' => 'Venue',
-        'fields' => ['nama_venue', 'alamat', 'nomor_telepon', 'email', 'jam_operasional', 'deskripsi', 'status'],
-        'labels' => ['Nama Venue', 'Alamat', 'Nomor Telepon', 'Email', 'Jam Operasional', 'Deskripsi', 'Status']
+        'fields' => ['nama_venue', 'kota', 'nomor_telepon', 'jam_operasional', 'status'],
+        'labels' => ['Nama Venue', 'Kota', 'Nomor Telepon', 'Jam Operasional', 'Status'],
+        'form_fields' => ['nama_venue', 'alamat', 'kota', 'nomor_telepon', 'email', 'jam_operasional', 'deskripsi', 'status'],
+        'form_labels' => ['Nama Venue', 'Alamat', 'Kota', 'Nomor Telepon', 'Email', 'Jam Operasional', 'Deskripsi', 'Status']
     ],
     'court_types' => [
         'title' => 'Jenis Lapangan',
         'fields' => ['nama_jenis', 'deskripsi', 'status'],
-        'labels' => ['Nama Jenis', 'Deskripsi', 'Status']
+        'labels' => ['Nama Jenis', 'Deskripsi', 'Status'],
+        'form_fields' => ['nama_jenis', 'deskripsi', 'status'],
+        'form_labels' => ['Nama Jenis', 'Deskripsi', 'Status']
     ],
     'courts' => [
         'title' => 'Lapangan',
-        'fields' => ['venue_id', 'court_type_id', 'kode_lapangan', 'nama_lapangan', 'harga_per_jam', 'kapasitas', 'status', 'deskripsi'],
-        'labels' => ['Venue', 'Jenis Lapangan', 'Kode Lapangan', 'Nama Lapangan', 'Harga per Jam', 'Kapasitas', 'Status', 'Deskripsi']
+        'fields' => ['kode_lapangan', 'nama_lapangan', 'venue_id', 'court_type_id', 'harga_per_jam', 'kapasitas', 'status'],
+        'labels' => ['Kode Lapangan', 'Nama Lapangan', 'Venue', 'Jenis Lapangan', 'Harga per Jam', 'Kapasitas', 'Status'],
+        'form_fields' => ['venue_id', 'court_type_id', 'kode_lapangan', 'nama_lapangan', 'harga_per_jam', 'kapasitas', 'status', 'deskripsi'],
+        'form_labels' => ['Venue', 'Jenis Lapangan', 'Kode Lapangan', 'Nama Lapangan', 'Harga per Jam', 'Kapasitas', 'Status', 'Deskripsi']
     ]
 ];
 
@@ -31,16 +37,54 @@ foreach ($entities as $folder => $meta) {
 @extends('layouts.app')
 @section('title', 'Data {$meta['title']}')
 @section('content')
+<div class="pagetitle">
+    <h1>Data {$meta['title']}</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+            <li class="breadcrumb-item">Master Data</li>
+            <li class="breadcrumb-item active">{$meta['title']}</li>
+        </ol>
+    </nav>
+</div>
+
 <div class="card shadow-sm border-0">
     <div class="card-header bg-white d-flex justify-content-between align-items-center">
         <h5 class="card-title mb-0 fw-bold text-navy">Daftar {$meta['title']}</h5>
-        <a href="{{ route('{$folder}.create') }}" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle me-1"></i> Tambah Data</a>
+        <a href="{{ route('{\$folder}.create') }}" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle me-1"></i> Tambah Data</a>
     </div>
     <div class="card-body pt-3">
-        <form method="GET" action="{{ route('{$folder}.index') }}" class="mb-3 d-flex gap-2">
+        <form method="GET" action="{{ route('{\$folder}.index') }}" class="mb-3 d-flex gap-2">
             <input type="text" name="search" class="form-control form-control-sm w-25" placeholder="Cari..." value="{{ request('search') }}">
+BLADE;
+
+    if ($folder == 'courts') {
+        $index .= <<<BLADE
+
+            <select name="venue_id" class="form-select form-select-sm w-25">
+                <option value="">Semua Venue</option>
+                @foreach(\$venues as \$v)
+                    <option value="{{ \$v->id }}" {{ request('venue_id') == \$v->id ? 'selected' : '' }}>{{ \$v->nama_venue }}</option>
+                @endforeach
+            </select>
+            <select name="court_type_id" class="form-select form-select-sm w-25">
+                <option value="">Semua Jenis</option>
+                @foreach(\$courtTypes as \$ct)
+                    <option value="{{ \$ct->id }}" {{ request('court_type_id') == \$ct->id ? 'selected' : '' }}>{{ \$ct->nama_jenis }}</option>
+                @endforeach
+            </select>
+            <select name="status" class="form-select form-select-sm w-25">
+                <option value="">Semua Status</option>
+                <option value="Aktif" {{ request('status') == 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                <option value="Tidak Aktif" {{ request('status') == 'Tidak Aktif' ? 'selected' : '' }}>Tidak Aktif</option>
+            </select>
+BLADE;
+    }
+
+    $index .= <<<BLADE
+
             <button type="submit" class="btn btn-secondary btn-sm"><i class="bi bi-search"></i> Cari</button>
-            <a href="{{ route('{$folder}.index') }}" class="btn btn-light btn-sm"><i class="bi bi-arrow-counterclockwise"></i> Reset</a>
+            <a href="{{ route('{\$folder}.index') }}" class="btn btn-light btn-sm"><i class="bi bi-arrow-counterclockwise"></i> Reset</a>
         </form>
         <div class="table-responsive">
             <table class="table table-hover align-middle">
@@ -80,10 +124,10 @@ BLADE;
 
     $index .= <<<BLADE
 
-                        <td class="text-center">
-                            <a href="{{ route('{$folder}.show', \$item->id) }}" class="btn btn-info btn-sm text-white" title="Detail"><i class="bi bi-eye"></i></a>
-                            <a href="{{ route('{$folder}.edit', \$item->id) }}" class="btn btn-warning btn-sm text-white" title="Edit"><i class="bi bi-pencil"></i></a>
-                            <form action="{{ route('{$folder}.destroy', \$item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin hapus data ini?')">
+                        <td class="text-center text-nowrap">
+                            <a href="{{ route('{\$folder}.show', \$item->id) }}" class="btn btn-info btn-sm text-white" title="Detail"><i class="bi bi-eye"></i></a>
+                            <a href="{{ route('{\$folder}.edit', \$item->id) }}" class="btn btn-warning btn-sm text-white" title="Edit"><i class="bi bi-pencil"></i></a>
+                            <form action="{{ route('{\$folder}.destroy', \$item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin hapus data ini?')">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-danger btn-sm" title="Hapus"><i class="bi bi-trash"></i></button>
@@ -110,17 +154,28 @@ BLADE;
 @extends('layouts.app')
 @section('title', 'Tambah {$meta['title']}')
 @section('content')
+<div class="pagetitle">
+    <h1>Tambah {$meta['title']}</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+            <li class="breadcrumb-item">Master Data</li>
+            <li class="breadcrumb-item"><a href="{{ route('{\$folder}.index') }}">{$meta['title']}</a></li>
+            <li class="breadcrumb-item active">Tambah</li>
+        </ol>
+    </nav>
+</div>
 <div class="card shadow-sm border-0">
     <div class="card-header bg-white">
         <h5 class="card-title mb-0 fw-bold text-navy">Form Tambah {$meta['title']}</h5>
     </div>
     <div class="card-body pt-3">
-        <form action="{{ route('{$folder}.store') }}" method="POST">
+        <form action="{{ route('{\$folder}.store') }}" method="POST">
             @csrf
-            @include('{$folder}.form')
+            @include('{\$folder}.form')
             <div class="mt-4">
                 <button type="submit" class="btn btn-primary"><i class="bi bi-save me-1"></i> Simpan Data</button>
-                <a href="{{ route('{$folder}.index') }}" class="btn btn-light"><i class="bi bi-arrow-left me-1"></i> Kembali</a>
+                <a href="{{ route('{\$folder}.index') }}" class="btn btn-light"><i class="bi bi-arrow-left me-1"></i> Kembali</a>
             </div>
         </form>
     </div>
@@ -134,18 +189,29 @@ BLADE;
 @extends('layouts.app')
 @section('title', 'Edit {$meta['title']}')
 @section('content')
+<div class="pagetitle">
+    <h1>Edit {$meta['title']}</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+            <li class="breadcrumb-item">Master Data</li>
+            <li class="breadcrumb-item"><a href="{{ route('{\$folder}.index') }}">{$meta['title']}</a></li>
+            <li class="breadcrumb-item active">Edit</li>
+        </ol>
+    </nav>
+</div>
 <div class="card shadow-sm border-0">
     <div class="card-header bg-white">
         <h5 class="card-title mb-0 fw-bold text-navy">Form Edit {$meta['title']}</h5>
     </div>
     <div class="card-body pt-3">
-        <form action="{{ route('{$folder}.update', \$item->id) }}" method="POST">
+        <form action="{{ route('{\$folder}.update', \$item->id) }}" method="POST">
             @csrf
             @method('PUT')
-            @include('{$folder}.form', ['item' => \$item])
+            @include('{\$folder}.form', ['item' => \$item])
             <div class="mt-4">
                 <button type="submit" class="btn btn-primary"><i class="bi bi-save me-1"></i> Perbarui Data</button>
-                <a href="{{ route('{$folder}.index') }}" class="btn btn-light"><i class="bi bi-arrow-left me-1"></i> Kembali</a>
+                <a href="{{ route('{\$folder}.index') }}" class="btn btn-light"><i class="bi bi-arrow-left me-1"></i> Kembali</a>
             </div>
         </form>
     </div>
@@ -159,6 +225,17 @@ BLADE;
 @extends('layouts.app')
 @section('title', 'Detail {$meta['title']}')
 @section('content')
+<div class="pagetitle">
+    <h1>Detail {$meta['title']}</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+            <li class="breadcrumb-item">Master Data</li>
+            <li class="breadcrumb-item"><a href="{{ route('{\$folder}.index') }}">{$meta['title']}</a></li>
+            <li class="breadcrumb-item active">Detail</li>
+        </ol>
+    </nav>
+</div>
 <div class="card shadow-sm border-0">
     <div class="card-header bg-white">
         <h5 class="card-title mb-0 fw-bold text-navy">Detail {$meta['title']}</h5>
@@ -167,8 +244,8 @@ BLADE;
         <table class="table table-bordered">
             <tbody>
 BLADE;
-    foreach ($meta['fields'] as $i => $field) {
-        $label = $meta['labels'][$i];
+    foreach ($meta['form_fields'] as $i => $field) {
+        $label = $meta['form_labels'][$i];
         if ($field == 'venue_id') {
             $show .= "\n                <tr><th class=\"w-25 bg-light\">{$label}</th><td>{{ \$item->venue->nama_venue ?? '-' }}</td></tr>";
         } elseif ($field == 'court_type_id') {
@@ -185,8 +262,8 @@ BLADE;
             </tbody>
         </table>
         <div class="mt-3">
-            <a href="{{ route('{$folder}.edit', \$item->id) }}" class="btn btn-warning text-white"><i class="bi bi-pencil me-1"></i> Edit</a>
-            <a href="{{ route('{$folder}.index') }}" class="btn btn-light"><i class="bi bi-arrow-left me-1"></i> Kembali</a>
+            <a href="{{ route('{\$folder}.edit', \$item->id) }}" class="btn btn-warning text-white"><i class="bi bi-pencil me-1"></i> Edit</a>
+            <a href="{{ route('{\$folder}.index') }}" class="btn btn-light"><i class="bi bi-arrow-left me-1"></i> Kembali</a>
         </div>
     </div>
 </div>
@@ -194,12 +271,12 @@ BLADE;
 BLADE;
     file_put_contents($dir . '/show.blade.php', $show);
 
-    // form.blade.php - simplified, assuming normal text except status, venue, and type
+    // form.blade.php
     $form = <<<BLADE
 <div class="row g-3">
 BLADE;
-    foreach ($meta['fields'] as $i => $field) {
-        $label = $meta['labels'][$i];
+    foreach ($meta['form_fields'] as $i => $field) {
+        $label = $meta['form_labels'][$i];
         $form .= "\n    <div class=\"col-md-12\">";
         $form .= "\n        <label class=\"form-label\">{$label}</label>";
         
@@ -245,4 +322,5 @@ BLADE;
     $form .= "\n</div>";
     file_put_contents($dir . '/form.blade.php', $form);
 }
-echo "Views generated.";
+echo "Views regenerated.";
+

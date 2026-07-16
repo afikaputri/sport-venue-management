@@ -1,6 +1,17 @@
 @extends('layouts.app')
 @section('title', 'Detail Venue')
 @section('content')
+<div class="pagetitle">
+    <h1>Detail Venue</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+            <li class="breadcrumb-item">Master Data</li>
+            <li class="breadcrumb-item"><a href="{{ route('venues.index') }}">Venue</a></li>
+            <li class="breadcrumb-item active">Detail</li>
+        </ol>
+    </nav>
+</div>
 <div class="card shadow-sm border-0">
     <div class="card-header bg-white">
         <h5 class="card-title mb-0 fw-bold text-navy">Detail Venue</h5>
@@ -10,6 +21,7 @@
             <tbody>
                 <tr><th class="w-25 bg-light">Nama Venue</th><td>{{ $item->nama_venue }}</td></tr>
                 <tr><th class="w-25 bg-light">Alamat</th><td>{{ $item->alamat }}</td></tr>
+                <tr><th class="w-25 bg-light">Kota</th><td>{{ $item->kota }}</td></tr>
                 <tr><th class="w-25 bg-light">Nomor Telepon</th><td>{{ $item->nomor_telepon }}</td></tr>
                 <tr><th class="w-25 bg-light">Email</th><td>{{ $item->email }}</td></tr>
                 <tr><th class="w-25 bg-light">Jam Operasional</th><td>{{ $item->jam_operasional }}</td></tr>

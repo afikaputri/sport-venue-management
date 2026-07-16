@@ -20,6 +20,7 @@ class VenueFactory extends Factory
         return [
             'nama_venue' => $this->faker->company() . ' Sport Center',
             'alamat' => $this->faker->address(),
+            'kota' => $this->faker->city(),
             'nomor_telepon' => $this->faker->phoneNumber(),
             'email' => $this->faker->unique()->safeEmail(),
             'jam_operasional' => '08:00 - 22:00',

@@ -13,6 +13,7 @@ class Venue extends Model
     protected $fillable = [
         'nama_venue',
         'alamat',
+        'kota',
         'nomor_telepon',
         'email',
         'jam_operasional',

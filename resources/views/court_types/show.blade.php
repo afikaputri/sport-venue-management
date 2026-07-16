@@ -1,6 +1,17 @@
 @extends('layouts.app')
 @section('title', 'Detail Jenis Lapangan')
 @section('content')
+<div class="pagetitle">
+    <h1>Detail Jenis Lapangan</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+            <li class="breadcrumb-item">Master Data</li>
+            <li class="breadcrumb-item"><a href="{{ route('court_types.index') }}">Jenis Lapangan</a></li>
+            <li class="breadcrumb-item active">Detail</li>
+        </ol>
+    </nav>
+</div>
 <div class="card shadow-sm border-0">
     <div class="card-header bg-white">
         <h5 class="card-title mb-0 fw-bold text-navy">Detail Jenis Lapangan</h5>

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama_venue');
             $table->text('alamat');
+            $table->string('kota');
             $table->string('nomor_telepon');
             $table->string('email')->nullable();
             $table->string('jam_operasional')->nullable();

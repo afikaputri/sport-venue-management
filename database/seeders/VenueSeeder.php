@@ -28,6 +28,7 @@ class VenueSeeder extends Seeder
         foreach ($venues as $venue) {
             \App\Models\Venue::factory()->create([
                 'nama_venue' => $venue,
+                'kota' => 'Makassar',
             ]);
         }
     }

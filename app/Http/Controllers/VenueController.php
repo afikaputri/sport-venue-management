@@ -28,6 +28,7 @@ class VenueController extends Controller
         $validated = $request->validate([
             'nama_venue' => 'required|string|max:255',
             'alamat' => 'required|string',
+            'kota' => 'required|string|max:255',
             'nomor_telepon' => 'required|string|max:20',
             'email' => 'nullable|email|max:255',
             'jam_operasional' => 'nullable|string|max:50',
@@ -36,6 +37,7 @@ class VenueController extends Controller
         ], [
             'nama_venue.required' => 'Nama Venue wajib diisi.',
             'alamat.required' => 'Alamat wajib diisi.',
+            'kota.required' => 'Kota wajib diisi.',
             'nomor_telepon.required' => 'Nomor Telepon wajib diisi.',
         ]);
 
@@ -60,6 +62,7 @@ class VenueController extends Controller
         $validated = $request->validate([
             'nama_venue' => 'required|string|max:255',
             'alamat' => 'required|string',
+            'kota' => 'required|string|max:255',
             'nomor_telepon' => 'required|string|max:20',
             'email' => 'nullable|email|max:255',
             'jam_operasional' => 'nullable|string|max:50',
@@ -68,6 +71,7 @@ class VenueController extends Controller
         ], [
             'nama_venue.required' => 'Nama Venue wajib diisi.',
             'alamat.required' => 'Alamat wajib diisi.',
+            'kota.required' => 'Kota wajib diisi.',
             'nomor_telepon.required' => 'Nomor Telepon wajib diisi.',
         ]);
 

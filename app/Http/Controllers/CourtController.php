@@ -12,16 +12,26 @@ class CourtController extends Controller
         $query = Court::with(['venue', 'courtType']);
         if ($request->filled('search')) {
             $search = $request->search;
-            $query->where('nama_lapangan', 'like', "%{$search}%")
-                  ->orWhereHas('venue', function($q) use ($search) {
-                      $q->where('nama_venue', 'like', "%{$search}%");
-                  })
-                  ->orWhereHas('courtType', function($q) use ($search) {
-                      $q->where('nama_jenis', 'like', "%{$search}%");
-                  });
+            $query->where('nama_lapangan', 'like', "%{$search}%");
         }
-        $items = $query->latest()->paginate(10);
-        return view('courts.index', compact('items'));
+        
+        if ($request->filled('venue_id')) {
+            $query->where('venue_id', $request->venue_id);
+        }
+        
+        if ($request->filled('court_type_id')) {
+            $query->where('court_type_id', $request->court_type_id);
+        }
+        
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+        
+        $items = $query->latest()->paginate(10)->withQueryString();
+        $venues = \App\Models\Venue::all();
+        $courtTypes = \App\Models\CourtType::all();
+        
+        return view('courts.index', compact('items', 'venues', 'courtTypes'));
     }
 
     public function create()

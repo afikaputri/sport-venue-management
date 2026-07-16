@@ -1,6 +1,17 @@
 @extends('layouts.app')
 @section('title', 'Data Venue')
 @section('content')
+<div class="pagetitle">
+    <h1>Data Venue</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+            <li class="breadcrumb-item">Master Data</li>
+            <li class="breadcrumb-item active">Venue</li>
+        </ol>
+    </nav>
+</div>
+
 <div class="card shadow-sm border-0">
     <div class="card-header bg-white d-flex justify-content-between align-items-center">
         <h5 class="card-title mb-0 fw-bold text-navy">Daftar Venue</h5>
@@ -18,11 +29,9 @@
                     <tr>
                         <th>No</th>
                         <th>Nama Venue</th>
-                        <th>Alamat</th>
+                        <th>Kota</th>
                         <th>Nomor Telepon</th>
-                        <th>Email</th>
                         <th>Jam Operasional</th>
-                        <th>Deskripsi</th>
                         <th>Status</th>
                         <th class="text-center">Aksi</th>
                     </tr>
@@ -32,13 +41,11 @@
                     <tr>
                         <td>{{ $items->firstItem() + $index }}</td>
                         <td>{{ $item->nama_venue }}</td>
-                        <td>{{ $item->alamat }}</td>
+                        <td>{{ $item->kota }}</td>
                         <td>{{ $item->nomor_telepon }}</td>
-                        <td>{{ $item->email }}</td>
                         <td>{{ $item->jam_operasional }}</td>
-                        <td>{{ $item->deskripsi }}</td>
                         <td><span class="badge bg-{{ $item->status == 'Aktif' ? 'success' : 'secondary' }}">{{ $item->status }}</span></td>
-                        <td class="text-center">
+                        <td class="text-center text-nowrap">
                             <a href="{{ route('venues.show', $item->id) }}" class="btn btn-info btn-sm text-white" title="Detail"><i class="bi bi-eye"></i></a>
                             <a href="{{ route('venues.edit', $item->id) }}" class="btn btn-warning btn-sm text-white" title="Edit"><i class="bi bi-pencil"></i></a>
                             <form action="{{ route('venues.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin hapus data ini?')">
