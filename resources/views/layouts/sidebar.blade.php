@@ -76,7 +76,7 @@
         <li class="nav-heading">Lainnya</li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
+            <a class="nav-link {{ request()->routeIs('reports.*') ? '' : 'collapsed' }}" href="{{ route('reports.summary') }}">
                 <i class="bi bi-file-earmark-text"></i>
                 <span>Laporan</span>
             </a>
