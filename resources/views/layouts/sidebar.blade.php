@@ -50,25 +50,27 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
+            <a class="nav-link {{ request()->routeIs('equipment_rentals.*') ? '' : 'collapsed' }}" href="{{ route('equipment_rentals.index') }}">
                 <i class="bi bi-bag-plus"></i>
                 <span>Penyewaan Peralatan</span>
             </a>
         </li>
-
-        <li class="nav-heading">Turnamen</li>
-
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
-                <i class="bi bi-trophy"></i>
-                <span>Data Turnamen</span>
+            <a class="nav-link {{ request()->routeIs('tournaments.*') || request()->routeIs('tournament_participants.*') ? '' : 'collapsed' }}" data-bs-target="#tournament-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-trophy"></i><span>Turnamen</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
-                <i class="bi bi-person-lines-fill"></i>
-                <span>Peserta Turnamen</span>
-            </a>
+            <ul id="tournament-nav" class="nav-content collapse {{ request()->routeIs('tournaments.*') || request()->routeIs('tournament_participants.*') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{{ route('tournaments.index') }}" class="{{ request()->routeIs('tournaments.*') ? 'active' : '' }}">
+                        <i class="bi bi-circle"></i><span>Data Turnamen</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('tournament_participants.index') }}" class="{{ request()->routeIs('tournament_participants.*') ? 'active' : '' }}">
+                        <i class="bi bi-circle"></i><span>Peserta Turnamen</span>
+                    </a>
+                </li>
+            </ul>
         </li>
 
         <li class="nav-heading">Lainnya</li>

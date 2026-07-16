@@ -10,6 +10,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\EquipmentRentalController;
+use App\Http\Controllers\TournamentController;
+use App\Http\Controllers\TournamentParticipantController;
 
 Route::get('/', function () {
     return redirect()->route('dashboard');
@@ -28,4 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('members', MemberController::class);
     Route::resource('bookings', BookingController::class);
     Route::resource('payments', PaymentController::class);
+    Route::resource('equipment_rentals', EquipmentRentalController::class);
+    Route::resource('tournaments', TournamentController::class);
+    Route::resource('tournament_participants', TournamentParticipantController::class);
 });

@@ -23,4 +23,14 @@ class Member extends Model
     {
         return $this->hasMany(Booking::class);
     }
+
+    public function equipmentRentals()
+    {
+        return $this->hasMany(EquipmentRental::class);
+    }
+
+    public function tournamentParticipants()
+    {
+        return $this->hasMany(TournamentParticipant::class);
+    }
 }
