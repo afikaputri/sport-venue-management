@@ -9,6 +9,7 @@ use App\Http\Controllers\CourtController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\PaymentController;
 
 Route::get('/', function () {
     return redirect()->route('dashboard');
@@ -26,4 +27,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('courts', CourtController::class);
     Route::resource('members', MemberController::class);
     Route::resource('bookings', BookingController::class);
+    Route::resource('payments', PaymentController::class);
 });

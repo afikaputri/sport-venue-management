@@ -28,4 +28,9 @@ class Booking extends Model
     {
         return $this->belongsTo(Court::class);
     }
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
+    }
 }
