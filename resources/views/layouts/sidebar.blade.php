@@ -2,7 +2,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
         
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('dashboard') }}">
+            <a class="nav-link {{ request()->routeIs('dashboard') ? '' : 'collapsed' }}" href="{{ route('dashboard') }}">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
@@ -11,19 +11,19 @@
         <li class="nav-heading">Master Data</li>
         
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
+            <a class="nav-link {{ request()->routeIs('venues.*') ? '' : 'collapsed' }}" href="{{ route('venues.index') }}">
                 <i class="bi bi-building"></i>
                 <span>Venue</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
+            <a class="nav-link {{ request()->routeIs('court_types.*') ? '' : 'collapsed' }}" href="{{ route('court_types.index') }}">
                 <i class="bi bi-tags"></i>
                 <span>Jenis Lapangan</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
+            <a class="nav-link {{ request()->routeIs('courts.*') ? '' : 'collapsed' }}" href="{{ route('courts.index') }}">
                 <i class="bi bi-layers"></i>
                 <span>Lapangan</span>
             </a>

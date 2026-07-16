@@ -13,13 +13,7 @@ class DashboardController extends Controller
         $totalUsers = User::count();
         // Karena role ada 3 berdasarkan enum
         $totalRoles = 3;
-        $user = Auth::user() ?? (object)[
-            'name' => 'Guest',
-            'email' => '-',
-            'role' => '-',
-            'status' => '-',
-            'phone' => '-',
-        ];
+        $user = Auth::user();
 
         return view('dashboard', compact('totalUsers', 'totalRoles', 'user'));
     }

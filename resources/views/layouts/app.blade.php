@@ -253,9 +253,29 @@
             <ul class="d-flex align-items-center mb-0 pe-3">
                 <li class="nav-item dropdown pe-3">
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                        <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name ?? 'Guest') }}&background=012970&color=fff" alt="Profile" class="rounded-circle" style="height: 36px; width: 36px;">
-                        <span class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->name ?? 'Guest User' }}</span>
-                    </a>
+                        <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=012970&color=fff" alt="Profile" class="rounded-circle" style="height: 36px; width: 36px;">
+                        <span class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->name }}</span>
+                    </a><!-- End Profile Iamge Icon -->
+                    
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                        <li class="dropdown-header">
+                            <h6>{{ Auth::user()->name }}</h6>
+                            <span>{{ Auth::user()->role }}</span>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="dropdown-item d-flex align-items-center text-danger">
+                                    <i class="bi bi-box-arrow-right"></i>
+                                    <span>Keluar</span>
+                                </button>
+                            </form>
+                        </li>
+                    </ul><!-- End Profile Dropdown Items -->
                 </li>
             </ul>
         </nav>
