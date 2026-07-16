@@ -29,7 +29,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
+            <a class="nav-link {{ request()->routeIs('members.*') ? '' : 'collapsed' }}" href="{{ route('members.index') }}">
                 <i class="bi bi-people"></i>
                 <span>Member</span>
             </a>
