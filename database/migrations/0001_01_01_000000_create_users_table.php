@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('phone')->nullable();
+            $table->enum('role', ['Pemilik', 'Staff', 'Member'])->default('Member');
+            $table->enum('status', ['Aktif', 'Nonaktif'])->default('Aktif');
+            $table->string('profile_photo')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
