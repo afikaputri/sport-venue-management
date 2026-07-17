@@ -249,6 +249,19 @@ $request->validate([
         return redirect()->route('bookings.index')->with('success', 'Berhasil edit data');
     }
 
+    public function updateStatus(Request $request, Booking $booking)
+    {
+        $request->validate([
+            'status_booking' => 'required|in:Dikonfirmasi,Ditolak,Selesai,Dibatalkan',
+        ]);
+
+        $booking->update([
+            'status_booking' => $request->status_booking,
+        ]);
+
+        return redirect()->route('bookings.index')->with('success', 'Status booking berhasil diperbarui');
+    }
+
     /**
      * Remove the specified resource from storage.
      */

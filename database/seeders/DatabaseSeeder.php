@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Administrator',
             'email' => 'owner@sportvenue.test',
-            'role' => 'Pemilik',
+            'role' => 'owner',
             'status' => 'Aktif',
             'password' => bcrypt('password'),
         ]);
@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Staff',
             'email' => 'staff@sportvenue.test',
-            'role' => 'Staff',
+            'role' => 'staff',
             'status' => 'Aktif',
             'password' => bcrypt('password'),
         ]);
@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Member',
             'email' => 'member@sportvenue.test',
-            'role' => 'Member',
+            'role' => 'member',
             'status' => 'Aktif',
             'password' => bcrypt('password'),
         ]);

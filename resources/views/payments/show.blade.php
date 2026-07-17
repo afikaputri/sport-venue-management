@@ -31,7 +31,7 @@
                             <td>
                                 @php
                                     $badge = match($payment->status_pembayaran) {
-                                        'DP' => 'warning',
+                                        'Menunggu Verifikasi' => 'warning',
                                         'Lunas' => 'success',
                                         'Refund' => 'danger',
                                         default => 'secondary'

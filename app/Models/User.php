@@ -29,4 +29,29 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function member()
+    {
+        return $this->hasOne(Member::class, 'user_id');
+    }
+
+    protected static function booted()
+    {
+        static::created(function ($user) {
+            if (strtolower($user->role) === 'member' || strtolower($user->role) === 'pelanggan') {
+                // Hindari duplikasi jika sudah dibuat manual
+                if (!$user->member) {
+                    \App\Models\Member::create([
+                        'user_id' => $user->id,
+                        'kode_member' => 'MBR-' . time() . rand(10,99),
+                        'nama_member' => $user->name,
+                        'email' => $user->email,
+                        'nomor_hp' => $user->phone ?? null,
+                        'status' => 'Aktif',
+                        'tanggal_bergabung' => now()->toDateString(),
+                    ]);
+                }
+            }
+        });
+    }
 }

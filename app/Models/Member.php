@@ -10,6 +10,7 @@ class Member extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'kode_member',
         'nama_member',
         'jenis_kelamin',
@@ -19,6 +20,12 @@ class Member extends Model
         'tanggal_bergabung',
         'status',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function bookings()
     {
         return $this->hasMany(Booking::class);

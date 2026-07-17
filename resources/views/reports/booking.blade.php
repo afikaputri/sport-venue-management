@@ -7,7 +7,7 @@
     <h1>Laporan Booking</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
             <li class="breadcrumb-item"><a href="{{ route('reports.summary') }}">Laporan</a></li>
             <li class="breadcrumb-item active">Booking</li>
         </ol>
@@ -93,10 +93,14 @@
                                     <td>{{ date('d/m/Y', strtotime($booking->tanggal_booking)) }}</td>
                                     <td>{{ date('H:i', strtotime($booking->jam_mulai)) }} - {{ date('H:i', strtotime($booking->jam_selesai)) }}</td>
                                     <td>
-                                        @if(in_array($booking->status_booking, ['pending', 'belum_dibayar']))
-                                            <span class="badge bg-warning">Pending</span>
-                                        @elseif(in_array($booking->status_booking, ['paid', 'completed', 'selesai', 'sukses']))
+                                        @if(in_array(strtolower($booking->status_booking), ['pending', 'belum_dibayar']))
+                                            <span class="badge bg-warning">{{ ucfirst($booking->status_booking) }}</span>
+                                        @elseif(in_array(strtolower($booking->status_booking), ['dikonfirmasi']))
+                                            <span class="badge bg-primary">{{ ucfirst($booking->status_booking) }}</span>
+                                        @elseif(in_array(strtolower($booking->status_booking), ['selesai', 'sukses', 'paid', 'completed']))
                                             <span class="badge bg-success">{{ ucfirst($booking->status_booking) }}</span>
+                                        @elseif(in_array(strtolower($booking->status_booking), ['dibatalkan', 'cancelled']))
+                                            <span class="badge bg-danger">{{ ucfirst($booking->status_booking) }}</span>
                                         @else
                                             <span class="badge bg-secondary">{{ ucfirst($booking->status_booking) }}</span>
                                         @endif
@@ -105,7 +109,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="8" class="text-center">Data tidak ditemukan</td>
+                                    <td colspan="8" class="text-center">Belum ada data.</td>
                                 </tr>
                                 @endforelse
                             </tbody>
@@ -121,22 +125,4 @@
     </div>
 </section>
 
-<style>
-@media print {
-    .sidebar, .header, form, .btn, .breadcrumb, .pagetitle nav, .gap-2 a, .pagination {
-        display: none !important;
-    }
-    #main {
-        margin-left: 0 !important;
-        margin-top: 0 !important;
-    }
-    .card {
-        border: 1px solid #ddd !important;
-        box-shadow: none !important;
-    }
-    .table-responsive {
-        overflow-x: visible !important;
-    }
-}
-</style>
 @endsection

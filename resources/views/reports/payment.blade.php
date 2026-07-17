@@ -7,7 +7,7 @@
     <h1>Laporan Pembayaran</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
             <li class="breadcrumb-item"><a href="{{ route('reports.summary') }}">Laporan</a></li>
             <li class="breadcrumb-item active">Pembayaran</li>
         </ol>
@@ -91,12 +91,12 @@
                                     <td>{{ $payment->booking && $payment->booking->member ? $payment->booking->member->name : '-' }}</td>
                                     <td>{{ strtoupper($payment->metode_pembayaran) }}</td>
                                     <td>
-                                        @if(in_array(strtolower($payment->status_pembayaran), ['pending', 'menunggu']))
-                                            <span class="badge bg-warning">Pending</span>
+                                        @if(in_array(strtolower($payment->status_pembayaran), ['pending', 'menunggu verifikasi', 'menunggu']))
+                                            <span class="badge bg-warning">{{ ucwords($payment->status_pembayaran) }}</span>
                                         @elseif(in_array(strtolower($payment->status_pembayaran), ['success', 'paid', 'dibayar', 'lunas']))
-                                            <span class="badge bg-success">{{ ucfirst($payment->status_pembayaran) }}</span>
+                                            <span class="badge bg-success">{{ ucwords($payment->status_pembayaran) }}</span>
                                         @else
-                                            <span class="badge bg-danger">{{ ucfirst($payment->status_pembayaran) }}</span>
+                                            <span class="badge bg-danger">{{ ucwords($payment->status_pembayaran) }}</span>
                                         @endif
                                     </td>
                                     <td>{{ date('d/m/Y', strtotime($payment->tanggal_bayar)) }}</td>
@@ -104,7 +104,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="8" class="text-center">Data tidak ditemukan</td>
+                                    <td colspan="8" class="text-center">Belum ada data.</td>
                                 </tr>
                                 @endforelse
                             </tbody>
@@ -120,22 +120,4 @@
     </div>
 </section>
 
-<style>
-@media print {
-    .sidebar, .header, form, .btn, .breadcrumb, .pagetitle nav, .gap-2 a, .pagination {
-        display: none !important;
-    }
-    #main {
-        margin-left: 0 !important;
-        margin-top: 0 !important;
-    }
-    .card {
-        border: 1px solid #ddd !important;
-        box-shadow: none !important;
-    }
-    .table-responsive {
-        overflow-x: visible !important;
-    }
-}
-</style>
 @endsection

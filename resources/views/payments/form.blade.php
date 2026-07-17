@@ -64,7 +64,7 @@
     <div class="col-md-6">
         <label class="form-label">Status Pembayaran</label>
         <select name="status_pembayaran" class="form-select @error('status_pembayaran') is-invalid @enderror">
-            <option value="DP" {{ old('status_pembayaran', $payment->status_pembayaran ?? '') == 'DP' ? 'selected' : '' }}>DP</option>
+            <option value="Menunggu Verifikasi" {{ old('status_pembayaran', $payment->status_pembayaran ?? '') == 'Menunggu Verifikasi' ? 'selected' : '' }}>Menunggu Verifikasi</option>
             <option value="Lunas" {{ old('status_pembayaran', $payment->status_pembayaran ?? '') == 'Lunas' ? 'selected' : '' }}>Lunas</option>
             <option value="Refund" {{ old('status_pembayaran', $payment->status_pembayaran ?? '') == 'Refund' ? 'selected' : '' }}>Refund</option>
         </select>

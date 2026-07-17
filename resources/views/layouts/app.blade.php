@@ -236,6 +236,33 @@
         .text-navy {
             color: var(--bs-primary) !important;
         }
+        
+        /* Print Styles */
+        @media print {
+            .sidebar, .header, .toggle-sidebar-btn, form, .btn, .breadcrumb, .pagetitle nav, .pagination, .alert {
+                display: none !important;
+            }
+            #main {
+                margin-left: 0 !important;
+                margin-top: 0 !important;
+                padding: 0 !important;
+            }
+            body {
+                background-color: white !important;
+            }
+            .card {
+                border: 1px solid #ddd !important;
+                box-shadow: none !important;
+                margin-bottom: 0 !important;
+            }
+            .table-responsive {
+                overflow-x: visible !important;
+            }
+            .pagetitle h1 {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -253,7 +280,11 @@
             <ul class="d-flex align-items-center mb-0 pe-3">
                 <li class="nav-item dropdown pe-3">
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                        <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=012970&color=fff" alt="Profile" class="rounded-circle" style="height: 36px; width: 36px;">
+                        @if(Auth::user()->profile_photo)
+                            <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" alt="Profile" class="rounded-circle" style="height: 36px; width: 36px; object-fit: cover;">
+                        @else
+                            <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=012970&color=fff" alt="Profile" class="rounded-circle" style="height: 36px; width: 36px;">
+                        @endif
                         <span class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->name }}</span>
                     </a><!-- End Profile Iamge Icon -->
                     
@@ -262,6 +293,17 @@
                             <h6>{{ Auth::user()->name }}</h6>
                             <span>{{ Auth::user()->role }}</span>
                         </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="{{ route('profile.index') }}">
+                                <i class="bi bi-person"></i>
+                                <span>Profil Saya</span>
+                            </a>
+                        </li>
+
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -285,9 +327,7 @@
     @include('layouts.sidebar')
 
     <main id="main" class="main">
-        <div class="pagetitle">
-            <h1>@yield('title')</h1>
-        </div>
+
 
         <section class="section dashboard mt-3">
             @if(session('success'))

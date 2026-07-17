@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date('tanggal_bayar');
             $table->enum('metode_pembayaran', ['Cash', 'Transfer Bank', 'QRIS', 'Kartu Debit', 'Kartu Kredit']);
             $table->decimal('jumlah_bayar', 15, 2);
-            $table->enum('status_pembayaran', ['DP', 'Lunas', 'Refund']);
+            $table->enum('status_pembayaran', ['DP', 'Lunas', 'Refund', 'Menunggu Verifikasi']);
             $table->text('catatan')->nullable();
             $table->timestamps();
         });

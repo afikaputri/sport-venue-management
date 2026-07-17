@@ -1,0 +1,48 @@
+@extends('layouts.app')
+
+@section('title', 'Daftar Venue')
+
+@section('content')
+<div class="pagetitle">
+    <h1>Daftar Venue</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+            <li class="breadcrumb-item active">Daftar Venue</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="row">
+    @forelse($venues as $venue)
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm border-0">
+            @if($venue->foto)
+                <img src="{{ asset('storage/' . $venue->foto) }}" class="card-img-top" alt="{{ $venue->nama_venue }}" style="height: 200px; object-fit: cover;">
+            @else
+                <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
+                    <i class="bi bi-image fs-1"></i>
+                </div>
+            @endif
+            <div class="card-body">
+                <h5 class="card-title fw-bold text-navy">{{ $venue->nama_venue }}</h5>
+                <p class="card-text text-muted small mb-3">
+                    <i class="bi bi-geo-alt-fill text-danger me-1"></i> {{ \Illuminate\Support\Str::limit($venue->alamat, 60) }}
+                </p>
+                <div class="d-grid">
+                    <a href="{{ route('member.venues.show', $venue->id) }}" class="btn btn-outline-primary">Lihat Lapangan</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    @empty
+    <div class="col-12">
+        <div class="alert alert-info">Belum ada data venue.</div>
+    </div>
+    @endforelse
+</div>
+
+<div class="d-flex justify-content-center">
+    {{ $venues->links('pagination::bootstrap-5') }}
+</div>
+@endsection

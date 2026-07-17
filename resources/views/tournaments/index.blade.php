@@ -19,9 +19,13 @@
 </div>
 @endif
 
-<div class="card shadow-sm border-0 mb-4">
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <h5 class="card-title mb-0 fw-bold text-navy">Daftar Turnamen</h5>
+        <a href="{{ route('tournaments.create') }}" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle me-1"></i> Tambah Turnamen</a>
+    </div>
     <div class="card-body pt-3">
-        <form method="GET" action="{{ route('tournaments.index') }}" class="row g-2">
+        <form method="GET" action="{{ route('tournaments.index') }}" class="row g-2 mb-3">
             <div class="col-md-6">
                 <input type="text" name="search" class="form-control form-control-sm" placeholder="Cari kode/nama turnamen..." value="{{ request('search') }}">
             </div>
@@ -38,15 +42,6 @@
                 <a href="{{ route('tournaments.index') }}" class="btn btn-light btn-sm w-100"><i class="bi bi-arrow-counterclockwise"></i></a>
             </div>
         </form>
-    </div>
-</div>
-
-<div class="card shadow-sm border-0">
-    <div class="card-header bg-white d-flex justify-content-between align-items-center">
-        <h5 class="card-title mb-0 fw-bold text-navy">Daftar Turnamen</h5>
-        <a href="{{ route('tournaments.create') }}" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle me-1"></i> Tambah Turnamen</a>
-    </div>
-    <div class="card-body pt-3">
         <div class="table-responsive">
             <table class="table table-hover align-middle">
                 <thead class="table-light">

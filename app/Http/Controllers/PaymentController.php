@@ -50,7 +50,7 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        $bookings = Booking::with(['member', 'court'])->whereIn('status_booking', ['Pending', 'Dikonfirmasi'])->get();
+        $bookings = Booking::with(['member', 'court'])->where('status_booking', 'Dikonfirmasi')->get();
         return view('payments.create', compact('bookings'));
     }
 
@@ -139,5 +139,18 @@ class PaymentController extends Controller
             }
             $booking->save();
         }
+    }
+
+    /**
+     * Verify a payment
+     */
+    public function verifyPayment(Payment $payment)
+    {
+        $payment->status_pembayaran = 'Lunas';
+        $payment->save();
+
+        $this->updateBookingStatus($payment->booking_id, 'Lunas');
+
+        return redirect()->back()->with('success', 'Pembayaran berhasil diverifikasi menjadi Lunas.');
     }
 }

@@ -19,9 +19,13 @@
 </div>
 @endif
 
-<div class="card shadow-sm border-0 mb-4">
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <h5 class="card-title mb-0 fw-bold text-navy">Daftar Booking</h5>
+        <a href="{{ route('bookings.create') }}" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle me-1"></i> Tambah Data</a>
+    </div>
     <div class="card-body pt-3">
-        <form method="GET" action="{{ route('bookings.index') }}" class="row g-2">
+        <form method="GET" action="{{ route('bookings.index') }}" class="row g-2 mb-3">
             <div class="col-md-3">
                 <input type="text" name="search" class="form-control form-control-sm" placeholder="Cari kode/member/lapangan..." value="{{ request('search') }}">
             </div>
@@ -58,15 +62,6 @@
                 <a href="{{ route('bookings.index') }}" class="btn btn-light btn-sm w-100"><i class="bi bi-arrow-counterclockwise"></i></a>
             </div>
         </form>
-    </div>
-</div>
-
-<div class="card shadow-sm border-0">
-    <div class="card-header bg-white d-flex justify-content-between align-items-center">
-        <h5 class="card-title mb-0 fw-bold text-navy">Daftar Booking</h5>
-        <a href="{{ route('bookings.create') }}" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle me-1"></i> Tambah Data</a>
-    </div>
-    <div class="card-body pt-3">
         <div class="table-responsive">
             <table class="table table-hover align-middle">
                 <thead class="table-light">
@@ -107,6 +102,28 @@
                             <span class="badge bg-{{ $badge }}">{{ $item->status_booking }}</span>
                         </td>
                         <td class="text-center text-nowrap">
+                            @if($item->status_booking == 'Pending')
+                                <form action="{{ route('bookings.updateStatus', $item->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="status_booking" value="Dikonfirmasi">
+                                    <button class="btn btn-success btn-sm text-white" title="Konfirmasi"><i class="bi bi-check-lg"></i></button>
+                                </form>
+                                <form action="{{ route('bookings.updateStatus', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Batalkan booking ini?')">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="status_booking" value="Dibatalkan">
+                                    <button class="btn btn-danger btn-sm text-white" title="Batalkan"><i class="bi bi-x-lg"></i></button>
+                                </form>
+                            @endif
+                            @if($item->status_booking == 'Dikonfirmasi')
+                                <form action="{{ route('bookings.updateStatus', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Tandai booking selesai secara manual?')">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="status_booking" value="Selesai">
+                                    <button class="btn btn-primary btn-sm text-white" title="Selesai"><i class="bi bi-flag"></i></button>
+                                </form>
+                            @endif
                             <a href="{{ route('bookings.show', $item->id) }}" class="btn btn-info btn-sm text-white" title="Detail"><i class="bi bi-eye"></i></a>
                             <a href="{{ route('bookings.edit', $item->id) }}" class="btn btn-warning btn-sm text-white" title="Edit"><i class="bi bi-pencil"></i></a>
                             <form action="{{ route('bookings.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin hapus data ini?')">
@@ -117,7 +134,7 @@
                         </td>
                     </tr>
                     @empty
-                    <tr><td colspan="10" class="text-center text-muted">Data tidak ditemukan.</td></tr>
+                    <tr><td colspan="10" class="text-center text-muted">Belum ada data.</td></tr>
                     @endforelse
                 </tbody>
             </table>

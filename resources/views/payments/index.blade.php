@@ -19,9 +19,13 @@
 </div>
 @endif
 
-<div class="card shadow-sm border-0 mb-4">
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <h5 class="card-title mb-0 fw-bold text-navy">Daftar Pembayaran</h5>
+        <a href="{{ route('payments.create') }}" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle me-1"></i> Tambah Pembayaran</a>
+    </div>
     <div class="card-body pt-3">
-        <form method="GET" action="{{ route('payments.index') }}" class="row g-2">
+        <form method="GET" action="{{ route('payments.index') }}" class="row g-2 mb-3">
             <div class="col-md-3">
                 <input type="text" name="search" class="form-control form-control-sm" placeholder="Cari kode booking/member/lapangan..." value="{{ request('search') }}">
             </div>
@@ -42,6 +46,7 @@
                 <select name="status_pembayaran" class="form-select form-select-sm">
                     <option value="">Semua Status</option>
                     <option value="DP" {{ request('status_pembayaran') == 'DP' ? 'selected' : '' }}>DP</option>
+                    <option value="Menunggu Verifikasi" {{ request('status_pembayaran') == 'Menunggu Verifikasi' ? 'selected' : '' }}>Menunggu Verifikasi</option>
                     <option value="Lunas" {{ request('status_pembayaran') == 'Lunas' ? 'selected' : '' }}>Lunas</option>
                     <option value="Refund" {{ request('status_pembayaran') == 'Refund' ? 'selected' : '' }}>Refund</option>
                 </select>
@@ -51,15 +56,6 @@
                 <a href="{{ route('payments.index') }}" class="btn btn-light btn-sm w-100"><i class="bi bi-arrow-counterclockwise"></i></a>
             </div>
         </form>
-    </div>
-</div>
-
-<div class="card shadow-sm border-0">
-    <div class="card-header bg-white d-flex justify-content-between align-items-center">
-        <h5 class="card-title mb-0 fw-bold text-navy">Daftar Pembayaran</h5>
-        <a href="{{ route('payments.create') }}" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle me-1"></i> Tambah Pembayaran</a>
-    </div>
-    <div class="card-body pt-3">
         <div class="table-responsive">
             <table class="table table-hover align-middle">
                 <thead class="table-light">
@@ -88,7 +84,7 @@
                         <td>
                             @php
                                 $badge = match($item->status_pembayaran) {
-                                    'DP' => 'warning',
+                                    'Menunggu Verifikasi' => 'warning',
                                     'Lunas' => 'success',
                                     'Refund' => 'danger',
                                     default => 'secondary'
@@ -97,6 +93,13 @@
                             <span class="badge bg-{{ $badge }}">{{ $item->status_pembayaran }}</span>
                         </td>
                         <td class="text-center text-nowrap">
+                            @if($item->status_pembayaran == 'Menunggu Verifikasi')
+                                <form action="{{ route('payments.verify', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Verifikasi pembayaran ini menjadi Lunas?')">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button class="btn btn-success btn-sm text-white" title="Verifikasi Lunas"><i class="bi bi-check-circle"></i></button>
+                                </form>
+                            @endif
                             <a href="{{ route('payments.show', $item->id) }}" class="btn btn-info btn-sm text-white" title="Detail"><i class="bi bi-eye"></i></a>
                             <a href="{{ route('payments.edit', $item->id) }}" class="btn btn-warning btn-sm text-white" title="Edit"><i class="bi bi-pencil"></i></a>
                             <form action="{{ route('payments.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin hapus data ini?')">

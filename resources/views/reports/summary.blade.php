@@ -7,7 +7,7 @@
     <h1>Ringkasan Pendapatan</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
             <li class="breadcrumb-item active">Laporan</li>
             <li class="breadcrumb-item active">Ringkasan Pendapatan</li>
         </ol>
@@ -133,19 +133,4 @@
     </div>
 </section>
 
-<style>
-@media print {
-    .sidebar, .header, form, .btn, .breadcrumb, .pagetitle nav, .gap-2 a {
-        display: none !important;
-    }
-    #main {
-        margin-left: 0 !important;
-        margin-top: 0 !important;
-    }
-    .card {
-        border: 1px solid #ddd !important;
-        box-shadow: none !important;
-    }
-}
-</style>
 @endsection
