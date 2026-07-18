@@ -3,16 +3,7 @@
 @section('title', 'Booking Saya')
 
 @section('content')
-<div class="pagetitle d-flex justify-content-between align-items-center">
-    <div>
-        <h1>Booking Saya</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                <li class="breadcrumb-item active">Booking Saya</li>
-            </ol>
-        </nav>
-    </div>
+<div class="d-flex justify-content-end mb-3">
     <a href="{{ route('member.venues') }}" class="btn btn-primary shadow-sm"><i class="bi bi-plus-circle me-1"></i> Booking Sekarang</a>
 </div>
 

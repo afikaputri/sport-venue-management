@@ -34,12 +34,17 @@ class VenueController extends Controller
             'jam_operasional' => 'nullable|string|max:50',
             'deskripsi' => 'nullable|string',
             'status' => 'required|in:Aktif,Tidak Aktif',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:20480',
         ], [
             'nama_venue.required' => 'Nama Venue wajib diisi.',
             'alamat.required' => 'Alamat wajib diisi.',
             'kota.required' => 'Kota wajib diisi.',
             'nomor_telepon.required' => 'Nomor Telepon wajib diisi.',
         ]);
+
+        if ($request->hasFile('foto')) {
+            $validated['foto'] = $request->file('foto')->store('venues', 'public');
+        }
 
         Venue::create($validated);
         return redirect()->route('venues.index')->with('success', 'Data Venue berhasil disimpan.');
@@ -68,12 +73,20 @@ class VenueController extends Controller
             'jam_operasional' => 'nullable|string|max:50',
             'deskripsi' => 'nullable|string',
             'status' => 'required|in:Aktif,Tidak Aktif',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:20480',
         ], [
             'nama_venue.required' => 'Nama Venue wajib diisi.',
             'alamat.required' => 'Alamat wajib diisi.',
             'kota.required' => 'Kota wajib diisi.',
             'nomor_telepon.required' => 'Nomor Telepon wajib diisi.',
         ]);
+
+        if ($request->hasFile('foto')) {
+            if ($venue->foto) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($venue->foto);
+            }
+            $validated['foto'] = $request->file('foto')->store('venues', 'public');
+        }
 
         $venue->update($validated);
         return redirect()->route('venues.index')->with('success', 'Data Venue berhasil diperbarui.');

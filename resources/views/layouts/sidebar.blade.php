@@ -56,29 +56,6 @@
                 <span>Pembayaran</span>
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('equipment_rentals.*') ? '' : 'collapsed' }}" href="{{ route('equipment_rentals.index') }}">
-                <i class="bi bi-bag-plus"></i>
-                <span>Penyewaan Peralatan</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('tournaments.*') || request()->routeIs('tournament_participants.*') ? '' : 'collapsed' }}" data-bs-target="#tournament-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-trophy"></i><span>Turnamen</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="tournament-nav" class="nav-content collapse {{ request()->routeIs('tournaments.*') || request()->routeIs('tournament_participants.*') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
-                <li>
-                    <a href="{{ route('tournaments.index') }}" class="{{ request()->routeIs('tournaments.*') ? 'active' : '' }}">
-                        <i class="bi bi-circle"></i><span>Data Turnamen</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('tournament_participants.index') }}" class="{{ request()->routeIs('tournament_participants.*') ? 'active' : '' }}">
-                        <i class="bi bi-circle"></i><span>Peserta Turnamen</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
         @endif
 
         @if($isOwner)
@@ -113,13 +90,6 @@
             </ul>
         </li>
 
-        <li class="nav-heading">Sistem</li>
-        <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('settings.*') ? '' : 'collapsed' }}" href="{{ route('settings.index') }}">
-                <i class="bi bi-gear"></i>
-                <span>Pengaturan</span>
-            </a>
-        </li>
         @endif
 
         <li class="nav-heading">Akun</li>

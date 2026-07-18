@@ -5,6 +5,11 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>@yield('title', 'Dashboard') - Sport Venue Management</title>
     
+    <!-- Favicon -->
+    @if(Route::currentRouteName() !== 'member.payments')
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    @endif
+    
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -70,20 +75,22 @@
             transition: all 0.5s;
             z-index: 997;
             height: 60px;
-            box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
-            background-color: var(--bs-white);
-            padding-left: 20px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(90deg, #012970 0%, #0d6efd 100%);
+            padding-left: 24px;
+            padding-right: 24px;
         }
         
         .header .logo {
             line-height: 1;
+            text-decoration: none;
         }
         
         .header .logo span {
-            font-size: 20px;
-            font-weight: 700;
+            font-size: 24px;
+            font-weight: 800;
             letter-spacing: 1px;
-            color: var(--bs-primary);
+            color: #ffffff;
             font-family: "Nunito", sans-serif;
             margin-top: 3px;
         }
@@ -269,58 +276,11 @@
 
     <!-- ======= Header ======= -->
     <header id="header" class="header fixed-top d-flex align-items-center">
-        <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center w-100">
             <a href="{{ route('dashboard') }}" class="logo d-flex align-items-center">
                 <span class="d-none d-lg-block">SportVenue</span>
             </a>
-            <i class="bi bi-list toggle-sidebar-btn ps-3 text-navy fs-3"></i>
         </div>
-        
-        <nav class="header-nav ms-auto">
-            <ul class="d-flex align-items-center mb-0 pe-3">
-                <li class="nav-item dropdown pe-3">
-                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                        @if(Auth::user()->profile_photo)
-                            <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" alt="Profile" class="rounded-circle" style="height: 36px; width: 36px; object-fit: cover;">
-                        @else
-                            <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=012970&color=fff" alt="Profile" class="rounded-circle" style="height: 36px; width: 36px;">
-                        @endif
-                        <span class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->name }}</span>
-                    </a><!-- End Profile Iamge Icon -->
-                    
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                        <li class="dropdown-header">
-                            <h6>{{ Auth::user()->name }}</h6>
-                            <span>{{ Auth::user()->role }}</span>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="{{ route('profile.index') }}">
-                                <i class="bi bi-person"></i>
-                                <span>Profil Saya</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li>
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit" class="dropdown-item d-flex align-items-center text-danger">
-                                    <i class="bi bi-box-arrow-right"></i>
-                                    <span>Keluar</span>
-                                </button>
-                            </form>
-                        </li>
-                    </ul><!-- End Profile Dropdown Items -->
-                </li>
-            </ul>
-        </nav>
     </header>
 
     <!-- ======= Sidebar ======= -->

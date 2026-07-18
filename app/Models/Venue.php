@@ -19,6 +19,7 @@ class Venue extends Model
         'jam_operasional',
         'deskripsi',
         'status',
+        'foto',
     ];
 
     public function courts()

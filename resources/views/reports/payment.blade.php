@@ -3,27 +3,9 @@
 @section('title', 'Laporan Pembayaran')
 
 @section('content')
-<div class="pagetitle">
-    <h1>Laporan Pembayaran</h1>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('reports.summary') }}">Laporan</a></li>
-            <li class="breadcrumb-item active">Pembayaran</li>
-        </ol>
-    </nav>
-</div>
+
 
 <section class="section">
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="d-flex gap-2">
-                <a href="{{ route('reports.summary') }}" class="btn btn-outline-primary">Ringkasan Pendapatan</a>
-                <a href="{{ route('reports.booking') }}" class="btn btn-outline-primary">Laporan Booking</a>
-                <a href="{{ route('reports.payment') }}" class="btn btn-primary">Laporan Pembayaran</a>
-            </div>
-        </div>
-    </div>
 
     <div class="row">
         <div class="col-12">
@@ -42,10 +24,6 @@
                             <input type="date" class="form-control" id="start_date" name="start_date" value="{{ request('start_date') }}">
                         </div>
                         <div class="col-md-3">
-                            <label for="end_date" class="form-label">Tanggal Akhir</label>
-                            <input type="date" class="form-control" id="end_date" name="end_date" value="{{ request('end_date') }}">
-                        </div>
-                        <div class="col-md-2">
                             <label for="status" class="form-label">Status</label>
                             <select class="form-select" id="status" name="status">
                                 <option value="">Semua Status</option>
@@ -54,11 +32,11 @@
                                 <option value="failed" {{ request('status') == 'failed' ? 'selected' : '' }}>Failed</option>
                             </select>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <label for="search" class="form-label">Cari</label>
                             <input type="text" class="form-control" id="search" name="search" value="{{ request('search') }}" placeholder="Booking/Metode...">
                         </div>
-                        <div class="col-md-2 d-flex align-items-end gap-2">
+                        <div class="col-md-3 d-flex align-items-end gap-2">
                             <button type="submit" class="btn btn-primary w-100">Filter</button>
                             <a href="{{ route('reports.payment') }}" class="btn btn-secondary w-100">Reset</a>
                         </div>
@@ -88,7 +66,7 @@
                                     <td>{{ $payments->firstItem() + $key }}</td>
                                     <td>PAY-{{ str_pad($payment->id, 5, '0', STR_PAD_LEFT) }}</td>
                                     <td>{{ $payment->booking ? $payment->booking->kode_booking : '-' }}</td>
-                                    <td>{{ $payment->booking && $payment->booking->member ? $payment->booking->member->name : '-' }}</td>
+                                    <td>{{ $payment->booking && $payment->booking->member ? $payment->booking->member->nama_member : '-' }}</td>
                                     <td>{{ strtoupper($payment->metode_pembayaran) }}</td>
                                     <td>
                                         @if(in_array(strtolower($payment->status_pembayaran), ['pending', 'menunggu verifikasi', 'menunggu']))

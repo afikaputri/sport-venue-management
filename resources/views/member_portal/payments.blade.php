@@ -3,15 +3,7 @@
 @section('title', 'Riwayat Pembayaran')
 
 @section('content')
-<div class="pagetitle">
-    <h1>Riwayat Pembayaran</h1>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item active">Riwayat Pembayaran</li>
-        </ol>
-    </nav>
-</div>
+
 
 <div class="card shadow-sm border-0">
     <div class="card-header bg-white border-bottom">
@@ -28,7 +20,6 @@
                         <th>Metode Pembayaran</th>
                         <th>Jumlah Bayar</th>
                         <th>Status</th>
-                        <th>Bukti Pembayaran</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,17 +41,10 @@
                             @endphp
                             <span class="badge bg-{{ $badge }}">{{ $item->status_pembayaran }}</span>
                         </td>
-                        <td>
-                            @if($item->bukti_pembayaran)
-                                <a href="{{ asset('storage/' . $item->bukti_pembayaran) }}" target="_blank" class="btn btn-sm btn-outline-primary"><i class="bi bi-file-earmark-image"></i> Lihat Bukti</a>
-                            @else
-                                <span class="text-muted small">-</span>
-                            @endif
-                        </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" class="text-center text-muted py-4">Belum ada data.</td>
+                        <td colspan="6" class="text-center text-muted py-4">Belum ada data.</td>
                     </tr>
                     @endforelse
                 </tbody>

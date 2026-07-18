@@ -3,16 +3,6 @@
 @section('title', 'Pembayaran Booking')
 
 @section('content')
-<div class="pagetitle">
-    <h1>Pembayaran Booking</h1>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('member.bookings') }}">Booking Saya</a></li>
-            <li class="breadcrumb-item active">Pembayaran</li>
-        </ol>
-    </nav>
-</div>
 
 <div class="row">
     <div class="col-md-5 mb-4">
@@ -60,9 +50,11 @@
                         <label class="form-label">Metode Pembayaran</label>
                         <select class="form-select @error('metode_pembayaran') is-invalid @enderror" name="metode_pembayaran" id="metode_pembayaran" required>
                             <option value="">Pilih Metode Pembayaran</option>
-                            <option value="Transfer" {{ old('metode_pembayaran') == 'Transfer' ? 'selected' : '' }}>Transfer Bank</option>
-                            <option value="QRIS" {{ old('metode_pembayaran') == 'QRIS' ? 'selected' : '' }}>QRIS</option>
                             <option value="Cash" {{ old('metode_pembayaran') == 'Cash' ? 'selected' : '' }}>Cash (Di Tempat)</option>
+                            <option value="Transfer Bank" {{ old('metode_pembayaran') == 'Transfer Bank' ? 'selected' : '' }}>Transfer Bank</option>
+                            <option value="QRIS" {{ old('metode_pembayaran') == 'QRIS' ? 'selected' : '' }}>QRIS</option>
+                            <option value="Kartu Debit" {{ old('metode_pembayaran') == 'Kartu Debit' ? 'selected' : '' }}>Kartu Debit</option>
+                            <option value="Kartu Kredit" {{ old('metode_pembayaran') == 'Kartu Kredit' ? 'selected' : '' }}>Kartu Kredit</option>
                         </select>
                         @error('metode_pembayaran')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -113,7 +105,7 @@
         const buktiInput = document.getElementById('bukti_pembayaran');
         
         function toggleBukti() {
-            if (metodeSelect.value === 'Transfer' || metodeSelect.value === 'QRIS') {
+            if (metodeSelect.value === 'Transfer Bank' || metodeSelect.value === 'QRIS') {
                 buktiContainer.style.display = 'block';
             } else {
                 buktiContainer.style.display = 'none';

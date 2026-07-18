@@ -1,17 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Detail Booking')
 @section('content')
-<div class="pagetitle">
-    <h1>Detail Booking</h1>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item">Transaksi</li>
-            <li class="breadcrumb-item"><a href="{{ route('bookings.index') }}">Booking</a></li>
-            <li class="breadcrumb-item active">Detail</li>
-        </ol>
-    </nav>
-</div>
+
 
 <div class="card shadow-sm border-0">
     <div class="card-header bg-white">

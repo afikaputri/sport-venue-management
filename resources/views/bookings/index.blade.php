@@ -1,23 +1,9 @@
 @extends('layouts.app')
 @section('title', 'Data Booking')
 @section('content')
-<div class="pagetitle">
-    <h1>Data Booking</h1>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item">Transaksi</li>
-            <li class="breadcrumb-item active">Booking</li>
-        </ol>
-    </nav>
-</div>
 
-@if(session('success'))
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-    {{ session('success') }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-@endif
+
+
 
 <div class="card shadow-sm border-0">
     <div class="card-header bg-white d-flex justify-content-between align-items-center">

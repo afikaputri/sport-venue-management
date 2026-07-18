@@ -5,20 +5,9 @@
 @section('content')
 <div class="pagetitle">
     <h1>Profil</h1>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item active">Profil</li>
-        </ol>
-    </nav>
 </div>
 
-@if(session('success'))
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-    {{ session('success') }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-@endif
+
 
 @if($errors->any())
 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -34,23 +23,22 @@
 <section class="section profile">
     <div class="row">
         <div class="col-xl-4">
-            <div class="card shadow-sm border-0">
-                <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                    @if($user->profile_photo)
-                        <img src="{{ asset('storage/' . $user->profile_photo) }}" alt="Profile" class="rounded-circle mb-3 shadow" style="height: 120px; width: 120px; object-fit: cover;">
-                    @else
-                        <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=012970&color=fff&size=120" alt="Profile" class="rounded-circle mb-3 shadow">
-                    @endif
-                    <h2 class="fw-bold">{{ $user->name }}</h2>
-                    <span class="badge bg-primary mb-2 px-3 py-2 fs-6">{{ $user->role }}</span>
-                    <p class="text-muted small">Bergabung sejak {{ \Carbon\Carbon::parse($user->created_at)->format('d M Y') }}</p>
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden mb-4">
+                <div class="bg-primary bg-gradient" style="height: 120px;"></div>
+                <div class="card-body profile-card pt-0 d-flex flex-column align-items-center position-relative">
+                    <div style="margin-top: -60px;" class="mb-3">
+                        <img src="{{ $user->profile_photo ? asset('storage/' . $user->profile_photo) : 'https://ui-avatars.com/api/?name='.urlencode($user->name).'&background=fff&color=0d6efd&size=120' }}" alt="Profile" class="rounded-circle shadow-sm border border-4 border-white bg-white" style="height: 120px; width: 120px; object-fit: cover;">
+                    </div>
+                    <h4 class="fw-bold text-navy mb-1">{{ $user->name }}</h4>
+                    <p class="text-muted mb-2"><i class="bi bi-envelope text-primary me-2"></i>{{ $user->email }}</p>
+                    <p class="text-muted small mb-0"><i class="bi bi-calendar-check text-primary me-2"></i>Bergabung sejak {{ \Carbon\Carbon::parse($user->created_at)->format('d F Y') }}</p>
                 </div>
             </div>
         </div>
 
         <div class="col-xl-8">
-            <div class="card shadow-sm border-0">
-                <div class="card-body pt-3">
+            <div class="card shadow-lg border-0 rounded-4 mb-4">
+                <div class="card-body p-4">
                     <!-- Bordered Tabs -->
                     <ul class="nav nav-tabs nav-tabs-bordered">
                         <li class="nav-item">
@@ -68,10 +56,7 @@
                                 <div class="col-lg-3 col-md-4 label text-muted">Nama Lengkap</div>
                                 <div class="col-lg-9 col-md-8 fw-medium">{{ $user->name }}</div>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-lg-3 col-md-4 label text-muted">Role / Hak Akses</div>
-                                <div class="col-lg-9 col-md-8 fw-medium">{{ $user->role }}</div>
-                            </div>
+
                             <div class="row mb-3">
                                 <div class="col-lg-3 col-md-4 label text-muted">Email</div>
                                 <div class="col-lg-9 col-md-8 fw-medium">{{ $user->email }}</div>

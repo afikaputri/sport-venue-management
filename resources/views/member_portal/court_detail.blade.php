@@ -5,14 +5,7 @@
 @section('content')
 <div class="pagetitle">
     <h1>Detail Lapangan</h1>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('member.venues') }}">Daftar Venue</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('member.venues.show', $court->venue_id) }}">{{ $court->venue->nama_venue }}</a></li>
-            <li class="breadcrumb-item active">{{ $court->nama_lapangan }}</li>
-        </ol>
-    </nav>
+
 </div>
 
 <div class="row">

@@ -8,6 +8,7 @@ class SettingController extends Controller
 {
     public function index()
     {
-        return view('settings.index');
+        abort(404, 'Halaman tidak ditemukan atau dinonaktifkan.');
+        // return view('settings.index');
     }
 }

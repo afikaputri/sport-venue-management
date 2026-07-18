@@ -138,35 +138,15 @@ class DashboardController extends Controller
                 ]);
             }
 
-            $jumlahBooking = \App\Models\Booking::where(
-                'member_id',
-                $member->id
-            )->count();
+            $jumlahBooking = $member->bookings()->count();
 
-            $bookingAktif = \App\Models\Booking::where(
-                'member_id',
-                $member->id
-            )
-            ->whereIn('status_booking', ['Pending','Dikonfirmasi'])
-            ->count();
+            $bookingSelesai = $member->bookings()
+                ->where('status_booking', 'Selesai')
+                ->count();
 
-            $bookingSelesai = \App\Models\Booking::where(
-                'member_id',
-                $member->id
-            )
-            ->where('status_booking','Selesai')
-            ->count();
-
-            $pembayaranTerakhir = \App\Models\Payment::whereHas(
-                'booking',
-                function($q) use ($member){
-                    $q->where('member_id',$member->id);
-                }
-            )->latest()->first();
-
-            $nominalPembayaran = $pembayaranTerakhir
-                ? $pembayaranTerakhir->jumlah_bayar
-                : 0;
+            $nominalPembayaran = \App\Models\Payment::whereHas('booking', function ($q) use ($member) {
+                $q->where('member_id', $member->id);
+            })->whereIn('status_pembayaran', ['Lunas', 'DP'])->sum('jumlah_bayar');
 
             $myBookings = \App\Models\Booking::with('court')
                 ->where('member_id',$member->id)
@@ -178,7 +158,6 @@ class DashboardController extends Controller
                 'user',
                 'member',
                 'jumlahBooking',
-                'bookingAktif',
                 'bookingSelesai',
                 'nominalPembayaran',
                 'myBookings'

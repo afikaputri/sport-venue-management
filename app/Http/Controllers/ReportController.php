@@ -8,63 +8,19 @@ use App\Models\Payment;
 
 class ReportController extends Controller
 {
-    public function summary(Request $request)
-    {
-        try {
-            $request->validate([
-                'start_date' => 'nullable|date',
-                'end_date' => 'nullable|date',
-            ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return back()->with('error', 'Format tanggal tidak valid.');
-        }
 
-        $start_date = $request->input('start_date');
-        $end_date = $request->input('end_date');
-
-        $bookingsQuery = Booking::query();
-        $paymentsQuery = Payment::query();
-
-        if ($start_date) {
-            $bookingsQuery->whereDate('tanggal_booking', '>=', $start_date);
-            $paymentsQuery->whereDate('tanggal_bayar', '>=', $start_date);
-        }
-
-        if ($end_date) {
-            $bookingsQuery->whereDate('tanggal_booking', '<=', $end_date);
-            $paymentsQuery->whereDate('tanggal_bayar', '<=', $end_date);
-        }
-
-        $jumlahBooking = (clone $bookingsQuery)->count();
-        $jumlahPembayaran = (clone $paymentsQuery)->count();
-        // sum('jumlah_bayar') is used to get the total revenue
-        $totalPendapatan = (clone $paymentsQuery)->where('status_pembayaran', 'success')->sum('jumlah_bayar') ?: (clone $paymentsQuery)->where('status_pembayaran', 'dibayar')->sum('jumlah_bayar') ?: (clone $paymentsQuery)->whereIn('status_pembayaran', ['success', 'paid', 'dibayar', 'lunas'])->sum('jumlah_bayar'); 
-        
-        $bookingPending = (clone $bookingsQuery)->whereIn('status_booking', ['pending', 'belum_dibayar', 'menunggu'])->count();
-        $bookingSelesai = (clone $bookingsQuery)->whereIn('status_booking', ['completed', 'selesai', 'sukses'])->count();
-
-        return view('reports.summary', compact(
-            'jumlahBooking',
-            'jumlahPembayaran',
-            'totalPendapatan',
-            'bookingPending',
-            'bookingSelesai'
-        ));
-    }
 
     public function booking(Request $request)
     {
         try {
             $request->validate([
                 'start_date' => 'nullable|date',
-                'end_date' => 'nullable|date',
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return back()->with('error', 'Format tanggal tidak valid.');
         }
 
         $start_date = $request->input('start_date');
-        $end_date = $request->input('end_date');
         $status = $request->input('status');
         $search = $request->input('search');
 
@@ -74,19 +30,22 @@ class ReportController extends Controller
             $query->whereDate('tanggal_booking', '>=', $start_date);
         }
 
-        if ($end_date) {
-            $query->whereDate('tanggal_booking', '<=', $end_date);
-        }
-
         if ($status) {
-            $query->where('status_booking', $status);
+            $statusMapBooking = [
+                'pending' => 'Pending',
+                'paid' => 'Dikonfirmasi',
+                'completed' => 'Selesai',
+                'cancelled' => 'Dibatalkan'
+            ];
+            $dbStatus = $statusMapBooking[$status] ?? $status;
+            $query->where('status_booking', $dbStatus);
         }
 
         if ($search) {
             $query->where(function($q) use ($search) {
                 $q->where('kode_booking', 'like', "%{$search}%")
                   ->orWhereHas('member', function($q) use ($search) {
-                      $q->where('name', 'like', "%{$search}%");
+                      $q->where('nama_member', 'like', "%{$search}%");
                   })
                   ->orWhereHas('court', function($q) use ($search) {
                       $q->where('nama_lapangan', 'like', "%{$search}%");
@@ -104,14 +63,12 @@ class ReportController extends Controller
         try {
             $request->validate([
                 'start_date' => 'nullable|date',
-                'end_date' => 'nullable|date',
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return back()->with('error', 'Format tanggal tidak valid.');
         }
 
         $start_date = $request->input('start_date');
-        $end_date = $request->input('end_date');
         $status = $request->input('status');
         $search = $request->input('search');
 
@@ -121,22 +78,29 @@ class ReportController extends Controller
             $query->whereDate('tanggal_bayar', '>=', $start_date);
         }
 
-        if ($end_date) {
-            $query->whereDate('tanggal_bayar', '<=', $end_date);
-        }
-
         if ($status) {
-            $query->where('status_pembayaran', $status);
+            $statusMapPayment = [
+                'pending' => 'Menunggu Verifikasi',
+                'success' => 'Lunas',
+                'failed' => 'Refund'
+            ];
+            $dbStatus = $statusMapPayment[$status] ?? $status;
+            $query->where('status_pembayaran', $dbStatus);
         }
 
         if ($search) {
-            $query->where(function($q) use ($search) {
-                $q->where('id', 'like', "%{$search}%")
-                  ->orWhere('metode_pembayaran', 'like', "%{$search}%")
+            $paymentIdSearch = ltrim(str_ireplace('PAY-', '', $search), '0');
+            $query->where(function($q) use ($search, $paymentIdSearch) {
+                if ($paymentIdSearch != '' && is_numeric($paymentIdSearch)) {
+                    $q->where('id', $paymentIdSearch);
+                } else {
+                    $q->where('id', 'like', "%{$search}%");
+                }
+                $q->orWhere('metode_pembayaran', 'like', "%{$search}%")
                   ->orWhereHas('booking', function($q) use ($search) {
                       $q->where('kode_booking', 'like', "%{$search}%")
                         ->orWhereHas('member', function($q) use ($search) {
-                            $q->where('name', 'like', "%{$search}%");
+                            $q->where('nama_member', 'like', "%{$search}%");
                         });
                   });
             });

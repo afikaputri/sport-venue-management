@@ -23,7 +23,7 @@ class ProfileController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'phone' => 'nullable|string|max:20',
-            'profile_photo' => 'nullable|image|max:2048',
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:20480',
         ];
 
         if ($request->filled('password')) {
@@ -39,6 +39,9 @@ class ProfileController extends Controller
         }
 
         if ($request->hasFile('profile_photo')) {
+            if ($user->profile_photo) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($user->profile_photo);
+            }
             $path = $request->file('profile_photo')->store('profiles', 'public');
             $user->profile_photo = $path;
         }

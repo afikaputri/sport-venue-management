@@ -1,23 +1,13 @@
 @extends('layouts.app')
 @section('title', 'Tambah Venue')
 @section('content')
-<div class="pagetitle">
-    <h1>Tambah Venue</h1>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item">Master Data</li>
-            <li class="breadcrumb-item"><a href="{{ route('venues.index') }}">Venue</a></li>
-            <li class="breadcrumb-item active">Tambah</li>
-        </ol>
-    </nav>
-</div>
+
 <div class="card shadow-sm border-0">
     <div class="card-header bg-white">
         <h5 class="card-title mb-0 fw-bold text-navy">Form Tambah Venue</h5>
     </div>
     <div class="card-body pt-3">
-        <form action="{{ route('venues.store') }}" method="POST">
+        <form action="{{ route('venues.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @include('venues.form')
             <div class="mt-4">

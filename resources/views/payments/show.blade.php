@@ -1,17 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Detail Pembayaran')
 @section('content')
-<div class="pagetitle">
-    <h1>Detail Pembayaran</h1>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item">Transaksi</li>
-            <li class="breadcrumb-item"><a href="{{ route('payments.index') }}">Pembayaran</a></li>
-            <li class="breadcrumb-item active">Detail</li>
-        </ol>
-    </nav>
-</div>
+
 
 <div class="row">
     <!-- Informasi Pembayaran -->

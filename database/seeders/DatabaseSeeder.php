@@ -13,36 +13,36 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      */
-    public function run(): void
-    {
-        User::factory()->create([
-            'name' => 'Administrator',
-            'email' => 'owner@sportvenue.test',
-            'role' => 'owner',
-            'status' => 'Aktif',
-            'password' => bcrypt('password'),
-        ]);
+public function run(): void
+{
+    User::factory()->create([
+        'name' => 'Administrator',
+        'email' => 'owner@sportvenue.test',
+        'role' => 'Pemilik',
+        'status' => 'Aktif',
+        'password' => bcrypt('password'),
+    ]);
 
-        User::factory()->create([
-            'name' => 'Staff',
-            'email' => 'staff@sportvenue.test',
-            'role' => 'staff',
-            'status' => 'Aktif',
-            'password' => bcrypt('password'),
-        ]);
+    User::factory()->create([
+        'name' => 'Staff',
+        'email' => 'staff@sportvenue.test',
+        'role' => 'Staff',
+        'status' => 'Aktif',
+        'password' => bcrypt('password'),
+    ]);
 
-        User::factory()->create([
-            'name' => 'Member',
-            'email' => 'member@sportvenue.test',
-            'role' => 'member',
-            'status' => 'Aktif',
-            'password' => bcrypt('password'),
-        ]);
+    User::factory()->create([
+        'name' => 'Member',
+        'email' => 'member@sportvenue.test',
+        'role' => 'Member',
+        'status' => 'Aktif',
+        'password' => bcrypt('password'),
+    ]);
 
-        $this->call([
-            VenueSeeder::class,
-            CourtTypeSeeder::class,
-            CourtSeeder::class,
-        ]);
-    }
+    $this->call([
+        VenueSeeder::class,
+        CourtTypeSeeder::class,
+        CourtSeeder::class,
+    ]);
+}
 }

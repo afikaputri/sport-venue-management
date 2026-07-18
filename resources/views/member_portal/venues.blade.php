@@ -5,12 +5,6 @@
 @section('content')
 <div class="pagetitle">
     <h1>Daftar Venue</h1>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item active">Daftar Venue</li>
-        </ol>
-    </nav>
 </div>
 
 <div class="row">
@@ -18,11 +12,9 @@
     <div class="col-md-4 mb-4">
         <div class="card h-100 shadow-sm border-0">
             @if($venue->foto)
-                <img src="{{ asset('storage/' . $venue->foto) }}" class="card-img-top" alt="{{ $venue->nama_venue }}" style="height: 200px; object-fit: cover;">
+                <img src="{{ asset('storage/' . $venue->foto) }}" class="card-img-top" alt="{{ $venue->nama_venue }}" style="height: 200px; object-fit: cover; border-top-left-radius: 8px; border-top-right-radius: 8px;">
             @else
-                <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
-                    <i class="bi bi-image fs-1"></i>
-                </div>
+                <img src="https://images.unsplash.com/photo-1518659124403-5cd2e239e248?auto=format&fit=crop&w=600&q=80" class="card-img-top" alt="Default Venue" style="height: 200px; object-fit: cover; border-top-left-radius: 8px; border-top-right-radius: 8px;">
             @endif
             <div class="card-body">
                 <h5 class="card-title fw-bold text-navy">{{ $venue->nama_venue }}</h5>

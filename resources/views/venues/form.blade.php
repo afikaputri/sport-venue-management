@@ -26,4 +26,14 @@
             <option value="Tidak Aktif" {{ (old('status', $item->status ?? '') == 'Tidak Aktif') ? 'selected' : '' }}>Tidak Aktif</option>
         </select>        @error('status')<div class="invalid-feedback">{{ $message }}</div>@enderror
     </div>
+    <div class="col-md-12">
+        <label class="form-label">Foto Venue <small class="text-muted">(Opsional, max 20MB)</small></label>
+        @if(isset($item) && $item->foto)
+            <div class="mb-2">
+                <img src="{{ asset('storage/' . $item->foto) }}" alt="Preview Foto Venue" class="img-thumbnail" style="max-height: 150px; object-fit: cover; border-radius: 8px;">
+            </div>
+        @endif
+        <input type="file" name="foto" class="form-control @error('foto') is-invalid @enderror" accept="image/png, image/jpeg, image/jpg, image/webp">
+        @error('foto')<div class="invalid-feedback">{{ $message }}</div>@enderror
+    </div>
 </div>

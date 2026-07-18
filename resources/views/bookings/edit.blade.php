@@ -1,17 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Edit Booking')
 @section('content')
-<div class="pagetitle">
-    <h1>Edit Booking</h1>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item">Transaksi</li>
-            <li class="breadcrumb-item"><a href="{{ route('bookings.index') }}">Booking</a></li>
-            <li class="breadcrumb-item active">Edit</li>
-        </ol>
-    </nav>
-</div>
+
 
 @if($errors->has('bentrok'))
 <div class="alert alert-danger alert-dismissible fade show" role="alert">

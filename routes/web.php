@@ -48,14 +48,14 @@ Route::middleware('auth')->group(function () {
         Route::resource('members', MemberController::class);
         Route::resource('bookings', BookingController::class);
         Route::resource('payments', PaymentController::class);
-        Route::resource('equipment_rentals', EquipmentRentalController::class);
+        // Route::resource('equipment_rentals', EquipmentRentalController::class);
     });
 
     // Khusus Staff dan Owner
-    Route::middleware('role:staff,owner')->group(function () {
-        Route::resource('tournaments', TournamentController::class);
-        Route::resource('tournament_participants', TournamentParticipantController::class);
-    });
+    // Route::middleware('role:staff,owner')->group(function () {
+    //     Route::resource('tournaments', TournamentController::class);
+    //     Route::resource('tournament_participants', TournamentParticipantController::class);
+    // });
 
     // Khusus Owner
     Route::middleware('role:owner')->group(function () {
@@ -63,7 +63,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('court_types', CourtTypeController::class);
         Route::resource('courts', CourtController::class);
         
-        Route::get('/reports/summary', [App\Http\Controllers\ReportController::class, 'summary'])->name('reports.summary');
+
         Route::get('/reports/booking', [App\Http\Controllers\ReportController::class, 'booking'])->name('reports.booking');
         Route::get('/reports/payment', [App\Http\Controllers\ReportController::class, 'payment'])->name('reports.payment');
 

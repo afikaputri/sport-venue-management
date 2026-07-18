@@ -32,18 +32,20 @@ class MemberPortalController extends Controller
 
     public function bookings()
     {
-        $member = $this->getOrCreateMember();
-        $items = Booking::with('court.venue')->where('member_id', $member->id)->latest()->paginate(10);
+        $user = \Illuminate\Support\Facades\Auth::user();
+        $memberIds = \App\Models\Member::where('user_id', $user->id)->pluck('id');
+        $items = Booking::with('court.venue')->whereIn('member_id', $memberIds)->latest()->paginate(10);
 
         return view('member_portal.bookings', compact('items'));
     }
 
     public function payments()
     {
-        $member = $this->getOrCreateMember();
+        $user = \Illuminate\Support\Facades\Auth::user();
+        $memberIds = \App\Models\Member::where('user_id', $user->id)->pluck('id');
         
-        $items = Payment::with('booking.court')->whereHas('booking', function($q) use ($member) {
-            $q->where('member_id', $member->id);
+        $items = Payment::with('booking.court')->whereHas('booking', function($q) use ($memberIds) {
+            $q->whereIn('member_id', $memberIds);
         })->latest()->paginate(10);
 
         return view('member_portal.payments', compact('items'));
@@ -78,13 +80,29 @@ class MemberPortalController extends Controller
     public function storeBooking(Request $request)
     {
         $request->validate([
+            'nama_member' => 'required|string|max:255',
             'court_id' => 'required|exists:courts,id',
             'tanggal_booking' => 'required|date',
             'jam_mulai' => 'required',
             'jam_selesai' => 'required|after:jam_mulai',
         ]);
 
-        $member = $this->getOrCreateMember();
+        $user = \Illuminate\Support\Facades\Auth::user();
+        $member = \App\Models\Member::where('user_id', $user->id)
+            ->where('nama_member', $request->nama_member)
+            ->first();
+            
+        if (!$member) {
+            $member = \App\Models\Member::create([
+                'user_id' => $user->id,
+                'kode_member' => 'MBR-' . time() . rand(10,99),
+                'nama_member' => $request->nama_member,
+                'email' => $user->email,
+                'nomor_hp' => $user->phone ?? null,
+                'status' => 'Aktif',
+                'tanggal_bergabung' => now()->toDateString(),
+            ]);
+        }
 
         // Hitung durasi dan total harga
         $court = \App\Models\Court::find($request->court_id);

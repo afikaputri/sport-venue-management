@@ -3,17 +3,7 @@
 @section('title', 'Buat Booking')
 
 @section('content')
-<div class="pagetitle">
-    <h1>Buat Booking</h1>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('member.venues') }}">Daftar Venue</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('member.courts.show', $court->id) }}">{{ $court->nama_lapangan }}</a></li>
-            <li class="breadcrumb-item active">Buat Booking</li>
-        </ol>
-    </nav>
-</div>
+
 
 <div class="row">
     <div class="col-md-6 mb-4">
@@ -33,7 +23,10 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Nama Member</label>
-                            <input type="text" class="form-control bg-light" value="{{ $member->nama_member ?? auth()->user()->name }}" readonly>
+                            <input type="text" class="form-control @error('nama_member') is-invalid @enderror" name="nama_member" value="{{ old('nama_member') }}" placeholder="Masukkan nama penyewa" required>
+                            @error('nama_member')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
 
